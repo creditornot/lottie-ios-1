@@ -97,15 +97,23 @@ extension KeypathSearchable {
       /// Nope. Stop Search
       return nil
     }
-    
-    if nextKeypath.nextKeypath != nil {
-      /// Now check child keypaths.
-      for child in childKeypaths {
-        if let layer = child.layer(for: keyPath) {
-          return layer
+
+    // Apply fix for keypath traversal https://github.com/airbnb/lottie-ios/pull/1156
+//    if nextKeypath.nextKeypath != nil {
+//      /// Now check child keypaths.
+//      for child in childKeypaths {
+//        if let layer = child.layer(for: keyPath) {
+//          return layer
+//        }
+//      }
+//    }
+    /// Now check child keypaths.
+    for child in childKeypaths {
+        if let layer = child.layer(for: nextKeypath) {
+            return layer
         }
-      }
     }
+
     return nil
   }
   
